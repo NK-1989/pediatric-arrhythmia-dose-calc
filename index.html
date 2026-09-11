@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1013">
+<meta name="robots" content="noindex, nofollow">
+<title>小児不整脈薬 投与量計算</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 1. 体重入力（大型キーパッド） -->
+<section class="screen" id="screenWeight" data-active="true">
+  <p class="eyebrow">PEDS ARRHYTHMIA</p>
+  <h1>投与量計算</h1>
+  <div class="disclaimer" role="note">
+    ⚠️ 本アプリは投与量計算の下書き支援ツールです。薬剤の選択・用法用量は必ずガイドライン原本・添付文書・院内基準で最終確認のうえオーダーしてください。本アプリの計算結果について作成者は一切の責任を負いません。
+  </div>
+
+  <div class="field-label" id="weightLabel">患者体重</div>
+  <div class="weight-display" role="group" aria-labelledby="weightLabel">
+    <span class="weight-value" id="weightValue" aria-live="polite">0.0</span>
+    <span class="weight-unit">kg</span>
+  </div>
+
+  <div class="keypad" id="keypad">
+    <button type="button" class="key" data-key="1">1</button>
+    <button type="button" class="key" data-key="2">2</button>
+    <button type="button" class="key" data-key="3">3</button>
+    <button type="button" class="key" data-key="4">4</button>
+    <button type="button" class="key" data-key="5">5</button>
+    <button type="button" class="key" data-key="6">6</button>
+    <button type="button" class="key" data-key="7">7</button>
+    <button type="button" class="key" data-key="8">8</button>
+    <button type="button" class="key" data-key="9">9</button>
+    <button type="button" class="key" data-key=".">.</button>
+    <button type="button" class="key" data-key="0">0</button>
+    <button type="button" class="key key-del" data-key="del" aria-label="1文字消す">⌫</button>
+  </div>
+
+  <button type="button" class="btn-primary" id="toCategoryBtn" disabled>不整脈を選ぶ</button>
+</section>
+
+<!-- 2. 不整脈選択 -->
+<section class="screen" id="screenCategory">
+  <button type="button" class="btn-back" id="backToWeightBtn">← 体重 <span id="backWeight">0.0</span> kg</button>
+  <div class="field-label">判断した不整脈</div>
+  <div class="category-list" id="categoryButtons"></div>
+</section>
+
+<!-- 3. 体重確認 -->
+<section class="screen" id="screenConfirm">
+  <div class="field-label" style="margin-top:0">体重の確認</div>
+  <div class="confirm-card">
+    <div class="confirm-cat" id="confirmCategory"></div>
+    <div class="confirm-weight">
+      <span class="weight-value" id="confirmWeight">0.0</span>
+      <span class="weight-unit">kg</span>
+    </div>
+    <div class="confirm-note">この体重で全用量・投与速度を計算します。推定体重ではなく実測体重をご確認ください。</div>
+  </div>
+  <button type="button" class="btn-primary" id="confirmBtn">確認して用量を表示</button>
+  <button type="button" class="btn-secondary" id="editWeightBtn">体重を修正</button>
+  <button type="button" class="btn-quiet" id="editCategoryBtn">不整脈を選び直す</button>
+</section>
+
+<!-- 4. 結果 -->
+<section class="screen" id="screenResult">
+  <button type="button" class="btn-back" id="resetBtn">← 最初から</button>
+  <div class="result-head">
+    <h2 class="result-title" id="resultTitle"></h2>
+    <span class="result-weight" id="resultWeight"></span>
+  </div>
+  <div class="result-confirmed">体重確認済み</div>
+  <button type="button" class="flowchart-btn" id="flowchartBtn">📄 ガイドラインのフローチャート</button>
+  <div class="item-list" id="itemList"></div>
+</section>
+
+<div id="flowchartModal" class="modal" hidden>
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal-content">
+    <div class="modal-bar">
+      <span class="modal-title">ガイドラインのフローチャート</span>
+      <button type="button" id="modalClose" class="modal-close" aria-label="閉じる">✕</button>
+    </div>
+    <div id="modalTabs" class="modal-tabs"></div>
+    <div id="modalImageWrap" class="modal-image-wrap">
+      <img id="modalImage" alt="ガイドラインフローチャート">
+    </div>
+    <div id="modalSource" class="modal-source"></div>
+  </div>
+</div>
+
+<footer class="app-footer">
+  <p id="footerSources">出典:</p>
+  <p>端末内で完結し、入力データは送信されません。</p>
+</footer>
+
+<script src="js/drugData.js"></script>
+<script src="js/calculator.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
