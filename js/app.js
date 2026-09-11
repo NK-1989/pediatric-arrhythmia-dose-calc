@@ -246,7 +246,7 @@
           resultEl.innerHTML =
             '<div class="result-main">' + volText + '</div>' +
             '<div class="result-unit-note">実投与量 ' + doseText + '</div>' +
-            (r.cappedByMax ? '<div class="result-flag">上限量で頭打ち</div>' : '') +
+            (r.cappedByMax ? '<div class="result-flag">成人量を超えるため成人量です（上限 ' + fmt(item.maxDoseMg) + ' mg）</div>' : '') +
             '<div class="standard-dose-note">' + standardDoseText(item) + '</div>' +
             deviationHtml(r);
         } else if (r.type === 'joule') {
