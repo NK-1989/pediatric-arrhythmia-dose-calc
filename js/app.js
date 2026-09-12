@@ -285,9 +285,11 @@
       card.appendChild(resultEl);
     }
 
-    if (item.stock || item.dilution) {
+    if (item.brand || item.brandNote || item.stock || item.dilution) {
       const prep = document.createElement('div');
       prep.className = 'item-detail';
+      if (item.brand) prep.innerHTML += '<div><b>代表的な先発品:</b> ' + item.brand + (item.brandNote ? '（' + item.brandNote + '）' : '') + '</div>';
+      else if (item.brandNote) prep.innerHTML += '<div><b>先発品:</b> ' + item.brandNote + '</div>';
       if (item.stock) prep.innerHTML += '<div><b>規格:</b> ' + item.stock + '</div>';
       if (item.dilution) prep.innerHTML += '<div><b>希釈方法:</b> ' + item.dilution + '</div>';
       card.appendChild(prep);

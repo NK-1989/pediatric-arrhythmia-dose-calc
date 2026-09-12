@@ -196,6 +196,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        brand: 'ワソラン',
         vwClass: 'IV',
         badge: 'ATP無効時',
         stock: '5mg/2mL（2.5mg/mL）',
@@ -219,6 +220,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（乳幼児）',
+        brand: 'ジゴシン',
         vwClass: '分類外',
         badge: 'ATP・ベラパミルに次ぐ選択（乳幼児）',
         stock: '0.25mg/1mL',
@@ -242,6 +244,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（学童）',
+        brand: 'ジゴシン',
         vwClass: '分類外',
         badge: 'ATP・ベラパミルに次ぐ選択（学童）',
         stock: '0.25mg/1mL',
@@ -261,6 +264,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロカインアミド（IA群）',
+        brand: 'アミサリン',
         vwClass: 'IA',
         badge: 'Na+チャネル遮断薬：ATP等が無効な場合',
         stock: '100mg/1mL（10%）',
@@ -283,6 +287,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジソピラミド（IA群）',
+        brand: 'リスモダンP',
         vwClass: 'IA',
         badge: 'Na+チャネル遮断薬：ATP等が無効な場合',
         stock: '50mg/5mL（10mg/mL）',
@@ -302,6 +307,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'フレカイニド（IC群）',
+        brand: 'タンボコール',
         vwClass: 'IC',
         badge: 'Na+チャネル遮断薬：ATP等が無効な場合',
         stock: '50mg/5mL（10mg/mL）',
@@ -321,6 +327,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '他の薬剤が無効な場合（洞調律化に時間を要する・血圧低下に注意）',
         stock: '150mg/3mL（50mg/mL）',
@@ -342,6 +349,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg）',
         stock: '150mg/3mL（50mg/mL）',
@@ -398,6 +406,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロプラノロール',
+        brand: 'インデラル',
         vwClass: 'II',
         badge: '心機能良好時：第一選択（β遮断薬）',
         stock: '2mg/2mL（1mg/mL）',
@@ -420,6 +429,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        brand: 'ワソラン',
         vwClass: 'IV',
         badge: '心機能良好時：第一選択（Ca拮抗薬）',
         stock: '5mg/2mL（2.5mg/mL）',
@@ -443,6 +453,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジルチアゼム',
+        brand: 'ヘルベッサー',
         vwClass: 'IV',
         badge: 'ベラパミルの代替',
         stock: '添付規格に応じて調製',
@@ -467,6 +478,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（乳幼児）',
+        brand: 'ジゴシン',
         vwClass: '分類外',
         badge: '心機能低下時：第一選択（乳幼児）',
         stock: '0.25mg/1mL',
@@ -490,6 +502,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（学童）',
+        brand: 'ジゴシン',
         vwClass: '分類外',
         badge: '心機能低下時：第一選択（学童）',
         stock: '0.25mg/1mL',
@@ -549,6 +562,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        brand: 'ワソラン',
         vwClass: 'IV',
         badge: 'RBBB＋LAD型：第一選択（Ca拮抗薬）',
         stock: '5mg/2mL（2.5mg/mL）',
@@ -571,6 +585,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロプラノロール',
+        brand: 'インデラル',
         vwClass: 'II',
         badge: 'RBBB＋LAD型：第二選択 ／ LBBB＋RAD型：第一選択（β遮断薬）',
         stock: '2mg/2mL（1mg/mL）',
@@ -593,6 +608,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジソピラミド',
+        brand: 'リスモダンP',
         vwClass: 'IA',
         badge: 'RBBB＋LAD型：第二選択（Na+チャネル遮断薬）',
         stock: '50mg/5mL（10mg/mL）',
@@ -612,6 +628,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'フレカイニド',
+        brand: 'タンボコール',
         vwClass: 'IC',
         badge: '各型共通：第一選択（Na+チャネル遮断薬）',
         stock: '50mg/5mL（10mg/mL）',
@@ -631,6 +648,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'リドカイン',
+        brand: 'キシロカイン',
         vwClass: 'IB',
         badge: 'LBBB＋RAD型・その他：第一選択',
         stock: '2%（100mg/5mL＝20mg/mL）',
@@ -649,6 +667,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'メキシレチン',
+        brand: 'メキシチール',
         vwClass: 'IB',
         badge: 'LBBB＋RAD型・その他：第一選択',
         stock: '250mg/10mL（25mg/mL）',
@@ -690,6 +709,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'infusion',
         name: 'ランジオロール',
+        brand: 'オノアクト',
         vwClass: 'II',
         badge: 'LBBB＋RAD型：第一選択（超短時間作用型β遮断薬）',
         stock: '添付規格に応じて調製',
@@ -708,6 +728,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '各型共通：薬剤抵抗性時の第二選択',
         stock: '150mg/3mL（50mg/mL）',
@@ -726,6 +747,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg）',
         stock: '150mg/3mL（50mg/mL）',
@@ -747,6 +769,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ニフェカラント',
+        brand: 'シンビット',
         vwClass: 'III',
         badge: '各型共通：薬剤抵抗性時の第二選択（Kチャネル遮断薬）',
         stock: '添付規格に応じて調製',
@@ -808,6 +831,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アドレナリン',
+        brand: 'ボスミン',
         badge: 'DCショック無効時、3〜5分毎',
         stock: '1mg/1mL（0.1%、ボスミン原液）',
         dilution: '原液1mL（1mg）＋生理食塩水9mLで希釈 → 0.1mg/mL',
@@ -824,6 +848,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '除細動抵抗性',
         stock: '150mg/3mL（50mg/mL）',
@@ -842,6 +867,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg）',
         stock: '150mg/3mL（50mg/mL）',
@@ -863,6 +889,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'リドカイン',
+        brand: 'キシロカイン',
         vwClass: 'IB',
         badge: 'アミオダロンの代替（第二選択）',
         stock: '2%（100mg/5mL＝20mg/mL）',
@@ -881,6 +908,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ニフェカラント',
+        brand: 'シンビット',
         vwClass: 'III',
         badge: '除細動抵抗性の代替（Kチャネル遮断薬）',
         stock: '添付規格に応じて調製',
@@ -920,6 +948,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アトロピン',
+        brandNote: '主に後発品（アトロピン硫酸塩注）として流通しており、広く使われる特定の先発品名はない',
         badge: '迷走神経性の徐脈・房室伝導障害',
         stock: '0.5mg/1mL',
         dilution: '原液1mL（0.5mg）＋生理食塩水9mLで希釈 → 0.05mg/mL',
@@ -939,6 +968,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'infusion',
         name: 'イソプロテレノール',
+        brand: 'プロタノールL',
         badge: 'アトロピン無効・高度徐脈（ペーシングまでの橋渡し）',
         stock: '0.2mg/1mL（200μg/mL）',
         dilution: '原液1mL（200μg）＋5%ブドウ糖液49mLで希釈 → 4μg/mL（計50mL）',
@@ -960,6 +990,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アドレナリン',
+        brand: 'ボスミン',
         badge: '心停止に近い高度徐脈・心停止時',
         stock: '1mg/1mL（0.1%、ボスミン原液）',
         dilution: '原液1mL（1mg）＋生理食塩水9mLで希釈 → 0.1mg/mL',
@@ -998,6 +1029,8 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: '硫酸マグネシウム',
+        brand: 'マグネゾール',
+        brandNote: '20%製剤の代表的な先発品（要在庫確認、後発品も広く流通）',
         badge: 'QT延長を伴うTdPの急性期治療',
         stock: '20%（200mg/mL）',
         dilution: '原液1mL（200mg）＋生理食塩水9mLで希釈 → 20mg/mL',
@@ -1019,6 +1052,8 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'infusion',
         name: '硫酸マグネシウム（維持点滴）',
+        brand: 'マグネゾール',
+        brandNote: '20%製剤の代表的な先発品（要在庫確認、後発品も広く流通）',
         badge: 'ボーラス後、効果があれば持続投与',
         stock: '20%（200mg/mL）',
         dilution: '原液1mL（200mg）＋生理食塩水9mLで希釈 → 20mg/mL（＝20,000μg/mL相当として計算）',
@@ -1049,6 +1084,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロプラノロール',
+        brand: 'インデラル',
         vwClass: 'II',
         badge: 'CPVT疑いの場合（β遮断薬）',
         stock: '2mg/2mL（1mg/mL）',
@@ -1090,6 +1126,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        brand: 'ワソラン',
         vwClass: 'IV',
         badge: 'CPVT疑いの場合',
         stock: '5mg/2mL（2.5mg/mL）',
@@ -1112,6 +1149,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '非CPVTの場合',
         stock: '150mg/3mL（50mg/mL）',
@@ -1130,6 +1168,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        brand: 'アンカロン',
         vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg・非CPVTの場合）',
         stock: '150mg/3mL（50mg/mL）',
@@ -1151,6 +1190,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ニフェカラント',
+        brand: 'シンビット',
         vwClass: 'III',
         badge: '非CPVTの場合（Kチャネル遮断薬）',
         stock: '添付規格に応じて調製',
