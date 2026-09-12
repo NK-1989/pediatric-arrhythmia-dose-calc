@@ -197,12 +197,19 @@ h1{margin:10px 0 0;font-size:22px;line-height:1.4;font-weight:700}
 .class-unclassified-note{margin-top:6px;font-size:11px;line-height:1.7;color:var(--ink-3)}
 .class-unclassified-drugs{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
 
-.sg-drug{padding:12px 14px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
-.sg-drug-name{font-size:13px;font-weight:700}
-.sg-row{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
-.sg-chip{padding:4px 8px;border-radius:7px;font-size:10px;font-weight:500;white-space:nowrap}
-.sg-arrow{background:var(--surface-2);color:rgba(242,244,245,.85)}
-.sg-level-low{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-strong)}
-.sg-level-mid{background:rgba(159,176,187,.28);color:var(--ink);border:1px solid rgba(159,176,187,.5)}
-.sg-level-high{background:rgba(95,212,196,.22);color:var(--accent);border:1px solid rgba(95,212,196,.55);font-weight:700}
-.sg-level-agonist{background:rgba(255,120,90,.18);color:var(--warn-ink);border:1px solid var(--warn-line);font-weight:700}
+.sg-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px}
+.sg-table{border-collapse:collapse;font-size:10.5px;white-space:nowrap}
+.sg-table th,.sg-table td{border:1px solid var(--line);padding:6px 7px;text-align:center}
+.sg-table thead th{background:var(--surface-3);color:var(--ink-2);font-weight:700;font-size:9.5px;line-height:1.3}
+.sg-table .sg-th-drug{
+  position:sticky;left:0;z-index:1;background:var(--surface-3);
+  text-align:left;min-width:108px;white-space:normal;
+}
+.sg-table tbody .sg-drug-cell{background:var(--surface);color:var(--ink);font-weight:700;text-align:left}
+.sg-cell{font-family:var(--mono);font-weight:700}
+.sg-cell sup{font-family:var(--sans);font-weight:500;font-size:8px}
+.sg-cell-low{color:var(--ink-4)}
+.sg-cell-mid{color:#9fb0bb}
+.sg-cell-high{color:var(--accent)}
+.sg-cell-agonist{color:var(--warn-ink)}
+.sg-cell-arrow{font-family:var(--sans);color:var(--ink-2);font-weight:500}

@@ -512,19 +512,33 @@
     appendSourceLink(classModalBody, data, '表5');
   }
 
-  // Sicilian Gambitの●/○の強さレベルをラベル付きの丸アイコンにする
-  const SG_LEVEL_LABEL = { low: '低', mid: '中', high: '高', agonist: '作動' };
-  function sgLevelChip(label, level, mark) {
-    const chip = document.createElement('span');
-    chip.className = 'sg-chip sg-level-' + level;
-    chip.textContent = label + (mark ? '(' + mark + ')' : '') + ' ' + SG_LEVEL_LABEL[level];
-    return chip;
+  // Sicilian Gambit表6の列定義（原本の列順そのまま）。key は各薬剤の channels[].label と一致させてある。
+  const SG_CHANNEL_COLS = [
+    { key: 'Na+(速い)', header: '速い' },
+    { key: 'Na+(中間)', header: '中間' },
+    { key: 'Na+(遅い)', header: '遅い' },
+    { key: 'Ca2+', header: 'Ca2+' },
+    { key: 'K+', header: 'K+' },
+    { key: 'If', header: 'If' },
+    { key: 'α', header: 'α' },
+    { key: 'β', header: 'β' },
+    { key: 'M2', header: 'M2' },
+    { key: 'A1', header: 'A1' },
+    { key: 'Na+-K+-ATPase', header: 'Na+-K+ATPase' },
+  ];
+  const SG_LEVEL_SYMBOL = { low: '○', mid: '●', high: '●', agonist: '■' };
+
+  function sgLevelCellHtml(entry) {
+    if (!entry) return '<td></td>';
+    const mark = entry.mark ? '<sup>' + entry.mark + '</sup>' : '';
+    return '<td class="sg-cell sg-cell-' + entry.level + '">' + SG_LEVEL_SYMBOL[entry.level] + mark + '</td>';
   }
-  function sgArrow(label, value) {
-    const chip = document.createElement('span');
-    chip.className = 'sg-chip sg-arrow';
-    chip.textContent = label + ' ' + value;
-    return chip;
+  function sgArrowCellHtml(value) {
+    return '<td class="sg-cell sg-cell-arrow">' + (value || '') + '</td>';
+  }
+  function sgExtracardiacCellHtml(level) {
+    if (!level) return '<td></td>';
+    return '<td class="sg-cell sg-cell-' + level + '">' + SG_LEVEL_SYMBOL[level] + '</td>';
   }
 
   function renderSicilianGambit() {
@@ -533,41 +547,46 @@
 
     const intro = document.createElement('p');
     intro.className = 'class-intro';
-    intro.textContent = data.title + '：22の抗不整脈薬について、イオンチャネル・受容体・イオンポンプへの作用の強さと、臨床効果・心電図所見への影響をまとめたもの。';
+    intro.textContent = data.title + '：22の抗不整脈薬について、イオンチャネル・受容体・イオンポンプへの作用の強さと、臨床効果・心電図所見への影響をまとめたもの。原本の表6をそのまま転記。';
     classModalBody.appendChild(intro);
 
+    const wrap = document.createElement('div');
+    wrap.className = 'sg-table-wrap';
+
+    let html = '<table class="sg-table"><thead>';
+    html += '<tr class="sg-head-group">'
+      + '<th class="sg-th-drug" rowspan="2"></th>'
+      + '<th colspan="6">イオンチャネル</th>'
+      + '<th colspan="4">受容体</th>'
+      + '<th rowspan="2">Na+-K+<br>ATPase</th>'
+      + '<th colspan="3">臨床効果</th>'
+      + '<th colspan="3">心電図所見</th>'
+      + '</tr>';
+    html += '<tr>'
+      + '<th colspan="3">Na+</th><th rowspan="2">Ca2+</th><th rowspan="2">K+</th><th rowspan="2">If</th>'
+      + '<th rowspan="2">α</th><th rowspan="2">β</th><th rowspan="2">M2</th><th rowspan="2">A1</th>'
+      + '<th rowspan="2">左室<br>機能</th><th rowspan="2">洞調律</th><th rowspan="2">心外性</th>'
+      + '<th rowspan="2">PR</th><th rowspan="2">QRS</th><th rowspan="2">JT</th>'
+      + '</tr>';
+    html += '<tr><th class="sg-th-drug"></th><th>速い</th><th>中間</th><th>遅い</th></tr>';
+    html += '</thead><tbody>';
+
     data.drugs.forEach((d) => {
-      const box = document.createElement('div');
-      box.className = 'sg-drug';
-
-      const name = document.createElement('div');
-      name.className = 'sg-drug-name';
-      name.textContent = d.name;
-      box.appendChild(name);
-
-      if (d.channels && d.channels.length) {
-        const row = document.createElement('div');
-        row.className = 'sg-row';
-        d.channels.forEach((c) => row.appendChild(sgLevelChip(c.label, c.level, c.mark)));
-        box.appendChild(row);
-      }
-
-      const clinicalRow = document.createElement('div');
-      clinicalRow.className = 'sg-row';
-      if (d.clinical) {
-        if (d.clinical.lv) clinicalRow.appendChild(sgArrow('左室機能', d.clinical.lv));
-        if (d.clinical.sinus) clinicalRow.appendChild(sgArrow('洞調律', d.clinical.sinus));
-        if (d.clinical.extracardiac) clinicalRow.appendChild(sgLevelChip('心外性作用', d.clinical.extracardiac));
-      }
-      if (d.ecg) {
-        if (d.ecg.pr) clinicalRow.appendChild(sgArrow('PR', d.ecg.pr));
-        if (d.ecg.qrs) clinicalRow.appendChild(sgArrow('QRS', d.ecg.qrs));
-        if (d.ecg.jt) clinicalRow.appendChild(sgArrow('JT', d.ecg.jt));
-      }
-      box.appendChild(clinicalRow);
-
-      classModalBody.appendChild(box);
+      const byKey = {};
+      (d.channels || []).forEach((c) => { byKey[c.label] = c; });
+      html += '<tr><td class="sg-th-drug sg-drug-cell">' + d.name + '</td>';
+      SG_CHANNEL_COLS.forEach((col) => { html += sgLevelCellHtml(byKey[col.key]); });
+      html += sgArrowCellHtml(d.clinical && d.clinical.lv);
+      html += sgArrowCellHtml(d.clinical && d.clinical.sinus);
+      html += sgExtracardiacCellHtml(d.clinical && d.clinical.extracardiac);
+      html += sgArrowCellHtml(d.ecg && d.ecg.pr);
+      html += sgArrowCellHtml(d.ecg && d.ecg.qrs);
+      html += sgArrowCellHtml(d.ecg && d.ecg.jt);
+      html += '</tr>';
     });
+    html += '</tbody></table>';
+    wrap.innerHTML = html;
+    classModalBody.appendChild(wrap);
 
     const legend = document.createElement('div');
     legend.className = 'class-unclassified';
