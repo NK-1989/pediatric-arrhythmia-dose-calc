@@ -101,6 +101,12 @@ h1{margin:10px 0 0;font-size:22px;line-height:1.4;font-weight:700}
 .item-list{margin-top:14px;display:flex;flex-direction:column;gap:12px}
 .item-card{padding:16px;background:var(--surface);border:1px solid var(--line);border-radius:16px}
 .item-name{font-size:15px;font-weight:700;line-height:1.4}
+.item-class-tag{
+  display:inline-block;margin-left:8px;padding:2px 7px;border-radius:6px;
+  background:var(--surface-3);border:1px solid var(--line-strong);
+  font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.03em;
+  color:var(--accent);vertical-align:middle;
+}
 .item-badge{display:block;margin-top:7px;font-size:10.5px;font-weight:500;line-height:1.65;color:rgba(242,244,245,.72)}
 .item-source-note{margin-top:7px;font-size:10.5px;line-height:1.7;color:var(--ink-3)}
 .result-main{
@@ -133,6 +139,12 @@ h1{margin:10px 0 0;font-size:22px;line-height:1.4;font-weight:700}
 .app-footer{max-width:520px;margin:0 auto;padding:18px 18px 34px;border-top:1px solid var(--line)}
 .app-footer p{margin:0 0 6px;font-size:10.5px;line-height:1.75;color:var(--ink-3)}
 .footer-source-link{color:var(--accent)}
+.class-table-btn{
+  display:block;width:100%;margin-bottom:14px;min-height:44px;padding:12px 15px;
+  border:1px solid rgba(95,212,196,.5);border-radius:10px;background:transparent;
+  color:var(--accent);font-family:var(--sans);font-size:11.5px;font-weight:500;cursor:pointer;text-align:left;
+}
+.class-table-btn:active{background:#12211f}
 
 .modal{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end}
 .modal[hidden]{display:none}
@@ -164,3 +176,23 @@ h1{margin:10px 0 0;font-size:22px;line-height:1.4;font-weight:700}
 .modal-source{padding:14px 18px;border-top:1px solid rgba(255,255,255,.12)}
 .modal-source-cite{display:block;font-size:10.5px;line-height:1.75;color:rgba(242,244,245,.8)}
 .modal-source-link{display:inline-block;margin-top:8px;font-size:11px;font-weight:500;color:var(--accent)}
+
+.modal-body-scroll{flex:1;overflow-y:auto;padding:16px 18px 24px}
+.class-intro{margin:0 0 14px;font-size:11px;line-height:1.75;color:var(--ink-3)}
+.class-group{padding:14px;margin-bottom:10px;background:var(--surface);border:1px solid var(--line);border-radius:14px}
+.class-group-head{display:flex;align-items:baseline;gap:8px}
+.class-group-code{
+  font-family:var(--mono);font-size:15px;font-weight:700;color:var(--accent);
+  padding:2px 8px;border-radius:6px;background:var(--surface-3);border:1px solid var(--line-strong);
+}
+.class-group-channel{font-size:12px;font-weight:700;color:var(--ink)}
+.class-group-effect{margin-top:6px;font-size:11px;line-height:1.7;color:var(--ink-3)}
+.class-group-drugs{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+.class-drug-chip{
+  padding:5px 9px;border-radius:8px;background:var(--surface-2);
+  font-size:10.5px;font-weight:500;color:rgba(242,244,245,.85);
+}
+.class-unclassified{padding:14px;background:var(--surface-3);border:1px dashed var(--line-strong);border-radius:14px}
+.class-unclassified-label{font-size:12px;font-weight:700;color:var(--ink-2)}
+.class-unclassified-note{margin-top:6px;font-size:11px;line-height:1.7;color:var(--ink-3)}
+.class-unclassified-drugs{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}

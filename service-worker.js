@@ -1,6 +1,6 @@
 // オフライン動作用 Service Worker（cache-first）
 // バージョンを上げると新しいキャッシュ名になり、古いキャッシュは activate 時に破棄される
-const CACHE_VERSION = 'peds-arrhythmia-v5';
+const CACHE_VERSION = 'peds-arrhythmia-v6';
 const CACHE_FILES = [
   './',
   './index.html',

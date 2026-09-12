@@ -43,6 +43,66 @@ function guidelinePdfLink(pageNum, sourceKey) {
   return src.url + '#page=' + pageNum;
 }
 
+// Vaughan Williams分類（不整脈薬物治療ガイドライン第1章 総論 表5 より）。
+// 各薬剤カードの薬剤名の横に表示する vwClass は、ここに掲げた群コードと対応させている。
+// ジゴキシン・ATP・アトロピンは原本内で「Vaughan Williams分類I〜IVには属さず、
+// その他の不整脈治療薬として扱われる」と明記されているため、群コードを持たない
+// （アプリ内では「分類外」として表示）。
+const VW_CLASSIFICATION = {
+  title: 'Vaughan Williams分類',
+  sourceKey: 'jcs2020',
+  sourcePage: 15,
+  groups: [
+    {
+      code: 'IA',
+      label: 'I群 A',
+      channel: 'Na+チャネル遮断',
+      effect: 'PR・QRS幅を中等度延長、活動電位持続時間(APD)を延長',
+      drugs: ['キニジン', 'プロカインアミド', 'ジソピラミド', 'シベンゾリン', 'ピルメノール'],
+    },
+    {
+      code: 'IB',
+      label: 'I群 B',
+      channel: 'Na+チャネル遮断',
+      effect: 'PR・QRS幅は不変、APDを短縮',
+      drugs: ['リドカイン', 'メキシレチン', 'アプリンジン'],
+    },
+    {
+      code: 'IC',
+      label: 'I群 C',
+      channel: 'Na+チャネル遮断',
+      effect: 'PR・QRS幅を著明に延長、APDは不変',
+      drugs: ['プロパフェノン', 'フレカイニド', 'ピルシカイニド'],
+    },
+    {
+      code: 'II',
+      label: 'II群',
+      channel: 'β受容体遮断',
+      effect: '交感神経刺激による自動能亢進・伝導促進を抑制',
+      drugs: ['プロプラノロール', 'メトプロロール', 'ビソプロロール', 'カルベジロール', 'ナドロール', 'アテノロール', 'ランジオロール', 'エスモロール ほか'],
+    },
+    {
+      code: 'III',
+      label: 'III群',
+      channel: 'K+チャネル遮断',
+      effect: 'APD（不応期）を延長',
+      drugs: ['アミオダロン', 'ソタロール', 'ニフェカラント'],
+    },
+    {
+      code: 'IV',
+      label: 'IV群',
+      channel: 'Ca2+チャネル遮断',
+      effect: '房室結節の伝導を抑制',
+      drugs: ['ベラパミル', 'ベプリジル', 'ジルチアゼム'],
+    },
+  ],
+  unclassified: {
+    label: '分類外（Vaughan Williams I〜IVに属さない）',
+    note: 'ジゴキシン・ATP・アトロピンは、Vaughan Williams分類I〜IVには属さず、その他の不整脈治療薬として扱われる（原本記載）。',
+    drugs: ['ジゴキシン（ジギタリス製剤）', 'ATP（アデノシン三リン酸製剤）', 'アトロピン（抗コリン薬）'],
+  },
+};
+
 const ARRHYTHMIA_CATEGORIES = [
   {
     id: 'psvt',
@@ -71,6 +131,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ATP（アデホスL）',
+        vwClass: '分類外',
         badge: '迷走神経手技が無効な場合の第一選択薬（保険適用外）',
         stock: '20mg/2mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水9mLで希釈 → 1mg/mL（2010年版ガイドラインの希釈法）',
@@ -93,6 +154,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        vwClass: 'IV',
         badge: 'ATP無効時',
         stock: '5mg/2mL（2.5mg/mL）',
         dilution: '原液1mL（2.5mg）＋生理食塩水9mLで希釈 → 0.25mg/mL（10倍希釈）',
@@ -115,6 +177,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（乳幼児）',
+        vwClass: '分類外',
         badge: 'ATP・ベラパミルに次ぐ選択（乳幼児）',
         stock: '0.25mg/1mL',
         dilution: '原液1mL（0.25mg）＋生理食塩水9mLで希釈 → 0.025mg/mL',
@@ -137,6 +200,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（学童）',
+        vwClass: '分類外',
         badge: 'ATP・ベラパミルに次ぐ選択（学童）',
         stock: '0.25mg/1mL',
         dilution: '原液1mL（0.25mg）＋生理食塩水9mLで希釈 → 0.025mg/mL',
@@ -155,6 +219,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロカインアミド（IA群）',
+        vwClass: 'IA',
         badge: 'Na+チャネル遮断薬：ATP等が無効な場合',
         stock: '100mg/1mL（10%）',
         dilution: '原液1mL（100mg）＋生理食塩水24mLで希釈 → 4mg/mL（25倍希釈）',
@@ -176,6 +241,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジソピラミド（IA群）',
+        vwClass: 'IA',
         badge: 'Na+チャネル遮断薬：ATP等が無効な場合',
         stock: '50mg/5mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水4mLで希釈 → 2mg/mL（5倍希釈）',
@@ -194,6 +260,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'フレカイニド（IC群）',
+        vwClass: 'IC',
         badge: 'Na+チャネル遮断薬：ATP等が無効な場合',
         stock: '50mg/5mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水4mLで希釈 → 2mg/mL（5倍希釈）',
@@ -212,6 +279,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        vwClass: 'III',
         badge: '他の薬剤が無効な場合（洞調律化に時間を要する・血圧低下に注意）',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -232,6 +300,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg）',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -287,6 +356,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロプラノロール',
+        vwClass: 'II',
         badge: '心機能良好時：第一選択（β遮断薬）',
         stock: '2mg/2mL（1mg/mL）',
         dilution: '原液1mL（1mg）＋生理食塩水9mLで希釈 → 0.1mg/mL（10倍希釈）',
@@ -308,6 +378,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        vwClass: 'IV',
         badge: '心機能良好時：第一選択（Ca拮抗薬）',
         stock: '5mg/2mL（2.5mg/mL）',
         dilution: '原液1mL（2.5mg）＋生理食塩水9mLで希釈 → 0.25mg/mL（10倍希釈）',
@@ -330,6 +401,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジルチアゼム',
+        vwClass: 'IV',
         badge: 'ベラパミルの代替',
         stock: '添付規格に応じて調製',
         dilution: '生理食塩水等で希釈し0.5mg/mLに調整（濃度は現場の在庫に合わせて要確認）',
@@ -353,6 +425,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（乳幼児）',
+        vwClass: '分類外',
         badge: '心機能低下時：第一選択（乳幼児）',
         stock: '0.25mg/1mL',
         dilution: '原液1mL（0.25mg）＋生理食塩水9mLで希釈 → 0.025mg/mL',
@@ -375,6 +448,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジゴキシン（学童）',
+        vwClass: '分類外',
         badge: '心機能低下時：第一選択（学童）',
         stock: '0.25mg/1mL',
         dilution: '原液1mL（0.25mg）＋生理食塩水9mLで希釈 → 0.025mg/mL',
@@ -433,6 +507,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        vwClass: 'IV',
         badge: 'RBBB＋LAD型：第一選択（Ca拮抗薬）',
         stock: '5mg/2mL（2.5mg/mL）',
         dilution: '原液1mL（2.5mg）＋生理食塩水9mLで希釈 → 0.25mg/mL（10倍希釈）',
@@ -454,6 +529,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロプラノロール',
+        vwClass: 'II',
         badge: 'RBBB＋LAD型：第二選択 ／ LBBB＋RAD型：第一選択（β遮断薬）',
         stock: '2mg/2mL（1mg/mL）',
         dilution: '原液1mL（1mg）＋生理食塩水9mLで希釈 → 0.1mg/mL（10倍希釈）',
@@ -475,6 +551,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ジソピラミド',
+        vwClass: 'IA',
         badge: 'RBBB＋LAD型：第二選択（Na+チャネル遮断薬）',
         stock: '50mg/5mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水4mLで希釈 → 2mg/mL（5倍希釈）',
@@ -493,6 +570,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'フレカイニド',
+        vwClass: 'IC',
         badge: '各型共通：第一選択（Na+チャネル遮断薬）',
         stock: '50mg/5mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水4mLで希釈 → 2mg/mL（5倍希釈）',
@@ -511,6 +589,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'リドカイン',
+        vwClass: 'IB',
         badge: 'LBBB＋RAD型・その他：第一選択',
         stock: '2%（100mg/5mL＝20mg/mL）',
         dilution: '原液1mL（20mg）＋生理食塩水9mLで希釈 → 2mg/mL',
@@ -528,6 +607,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'メキシレチン',
+        vwClass: 'IB',
         badge: 'LBBB＋RAD型・その他：第一選択',
         stock: '250mg/10mL（25mg/mL）',
         dilution: '原液1mL（25mg）＋5%ブドウ糖液9mLで希釈 → 2.5mg/mL（10倍希釈）',
@@ -549,6 +629,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ATP（アデホスL）',
+        vwClass: '分類外',
         badge: 'LBBB＋RAD型：第一選択（保険適用外）',
         stock: '20mg/2mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水9mLで希釈 → 1mg/mL（2010年版ガイドラインの希釈法）',
@@ -567,6 +648,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'infusion',
         name: 'ランジオロール',
+        vwClass: 'II',
         badge: 'LBBB＋RAD型：第一選択（超短時間作用型β遮断薬）',
         stock: '添付規格に応じて調製',
         dilution: '例：50mg製剤を希釈し1mg/mLに調整',
@@ -584,6 +666,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        vwClass: 'III',
         badge: '各型共通：薬剤抵抗性時の第二選択',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -601,6 +684,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg）',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -621,6 +705,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ニフェカラント',
+        vwClass: 'III',
         badge: '各型共通：薬剤抵抗性時の第二選択（Kチャネル遮断薬）',
         stock: '添付規格に応じて調製',
         dilution: '5%ブドウ糖液で希釈し1mg/mLに調整',
@@ -697,6 +782,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        vwClass: 'III',
         badge: '除細動抵抗性',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -714,6 +800,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg）',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -734,6 +821,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'リドカイン',
+        vwClass: 'IB',
         badge: 'アミオダロンの代替（第二選択）',
         stock: '2%（100mg/5mL＝20mg/mL）',
         dilution: '原液1mL（20mg）＋生理食塩水9mLで希釈 → 2mg/mL',
@@ -751,6 +839,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ニフェカラント',
+        vwClass: 'III',
         badge: '除細動抵抗性の代替（Kチャネル遮断薬）',
         stock: '添付規格に応じて調製',
         dilution: '5%ブドウ糖液で希釈し1mg/mLに調整',
@@ -918,6 +1007,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'プロプラノロール',
+        vwClass: 'II',
         badge: 'CPVT疑いの場合（β遮断薬）',
         stock: '2mg/2mL（1mg/mL）',
         dilution: '原液1mL（1mg）＋生理食塩水9mLで希釈 → 0.1mg/mL（10倍希釈）',
@@ -939,6 +1029,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ATP（アデホスL）',
+        vwClass: '分類外',
         badge: 'CPVT疑いの場合（保険適用外）',
         stock: '20mg/2mL（10mg/mL）',
         dilution: '原液1mL（10mg）＋生理食塩水9mLで希釈 → 1mg/mL（2010年版ガイドラインの希釈法）',
@@ -957,6 +1048,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ベラパミル',
+        vwClass: 'IV',
         badge: 'CPVT疑いの場合',
         stock: '5mg/2mL（2.5mg/mL）',
         dilution: '原液1mL（2.5mg）＋生理食塩水9mLで希釈 → 0.25mg/mL（10倍希釈）',
@@ -978,6 +1070,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（JCS2020レジメン）',
+        vwClass: 'III',
         badge: '非CPVTの場合',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -995,6 +1088,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'アミオダロン（急速投与）',
+        vwClass: 'III',
         badge: '2010年版ガイドラインに基づく急速静注（5mg/kg・非CPVTの場合）',
         stock: '150mg/3mL（50mg/mL）',
         dilution: '原液3mL（150mg）＋5%ブドウ糖液57mLで希釈 → 2.5mg/mL（計60mL）',
@@ -1015,6 +1109,7 @@ const ARRHYTHMIA_CATEGORIES = [
       {
         kind: 'drug',
         name: 'ニフェカラント',
+        vwClass: 'III',
         badge: '非CPVTの場合（Kチャネル遮断薬）',
         stock: '添付規格に応じて調製',
         dilution: '5%ブドウ糖液で希釈し1mg/mLに調整',
@@ -1033,5 +1128,5 @@ const ARRHYTHMIA_CATEGORIES = [
 ];
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { ARRHYTHMIA_CATEGORIES, GUIDELINE_SOURCES, GUIDELINE_SOURCE, guidelinePdfLink };
+  module.exports = { ARRHYTHMIA_CATEGORIES, GUIDELINE_SOURCES, GUIDELINE_SOURCE, guidelinePdfLink, VW_CLASSIFICATION };
 }

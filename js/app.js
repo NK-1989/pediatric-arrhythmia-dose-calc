@@ -47,6 +47,12 @@
   const modalImageWrap = document.getElementById('modalImageWrap');
   const footerSourcesEl = document.getElementById('footerSources');
 
+  const classTableBtn = document.getElementById('classTableBtn');
+  const classModal = document.getElementById('classModal');
+  const classModalBackdrop = document.getElementById('classModalBackdrop');
+  const classModalClose = document.getElementById('classModalClose');
+  const classModalBody = document.getElementById('classModalBody');
+
   let weightText = '';          // キーパッドで入力中の文字列
   let selectedCategoryId = null;
   let weightConfirmed = false;  // 体重確認ステップを通過したか
@@ -216,6 +222,12 @@
     const nameEl = document.createElement('div');
     nameEl.className = 'item-name';
     nameEl.textContent = item.name;
+    if (item.vwClass) {
+      const classTag = document.createElement('span');
+      classTag.className = 'item-class-tag';
+      classTag.textContent = item.vwClass === '分類外' ? '分類外' : item.vwClass + '群';
+      nameEl.appendChild(classTag);
+    }
     card.appendChild(nameEl);
 
     if (item.badge) {
@@ -409,7 +421,100 @@
   modalBackdrop.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !modal.hidden) closeModal();
+    if (e.key === 'Escape' && !classModal.hidden) closeClassModal();
   });
+
+  // --- 抗不整脈薬の分類表（Vaughan Williams分類）モーダル ------------------
+  function renderClassTable() {
+    const data = VW_CLASSIFICATION;
+    const sourceInfo = GUIDELINE_SOURCES[data.sourceKey || 'jcs2020'];
+    classModalBody.innerHTML = '';
+
+    const intro = document.createElement('p');
+    intro.className = 'class-intro';
+    intro.textContent = data.title + '：どの群がどのイオンチャネル・受容体に作用するかの一覧。';
+    classModalBody.appendChild(intro);
+
+    data.groups.forEach((g) => {
+      const box = document.createElement('div');
+      box.className = 'class-group';
+
+      const head = document.createElement('div');
+      head.className = 'class-group-head';
+      const code = document.createElement('span');
+      code.className = 'class-group-code';
+      code.textContent = g.code + '群';
+      const channel = document.createElement('span');
+      channel.className = 'class-group-channel';
+      channel.textContent = g.channel;
+      head.appendChild(code);
+      head.appendChild(channel);
+      box.appendChild(head);
+
+      const effect = document.createElement('div');
+      effect.className = 'class-group-effect';
+      effect.textContent = g.effect;
+      box.appendChild(effect);
+
+      const drugs = document.createElement('div');
+      drugs.className = 'class-group-drugs';
+      g.drugs.forEach((d) => {
+        const chip = document.createElement('span');
+        chip.className = 'class-drug-chip';
+        chip.textContent = d;
+        drugs.appendChild(chip);
+      });
+      box.appendChild(drugs);
+
+      classModalBody.appendChild(box);
+    });
+
+    if (data.unclassified) {
+      const box = document.createElement('div');
+      box.className = 'class-unclassified';
+      const label = document.createElement('div');
+      label.className = 'class-unclassified-label';
+      label.textContent = data.unclassified.label;
+      box.appendChild(label);
+      const note = document.createElement('div');
+      note.className = 'class-unclassified-note';
+      note.textContent = data.unclassified.note;
+      box.appendChild(note);
+      const drugs = document.createElement('div');
+      drugs.className = 'class-unclassified-drugs';
+      data.unclassified.drugs.forEach((d) => {
+        const chip = document.createElement('span');
+        chip.className = 'class-drug-chip';
+        chip.textContent = d;
+        drugs.appendChild(chip);
+      });
+      box.appendChild(drugs);
+      classModalBody.appendChild(box);
+    }
+
+    const source = document.createElement('p');
+    source.className = 'class-intro';
+    source.style.marginTop = '4px';
+    const link = document.createElement('a');
+    link.className = 'modal-source-link';
+    link.href = guidelinePdfLink(data.sourcePage, data.sourceKey);
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = '📖 出典: ' + sourceInfo.title + (data.sourcePage ? ' 表5 p.' + data.sourcePage : '');
+    source.appendChild(link);
+    classModalBody.appendChild(source);
+  }
+
+  function openClassModal() {
+    renderClassTable();
+    classModal.hidden = false;
+  }
+  function closeClassModal() {
+    classModal.hidden = true;
+  }
+  classTableBtn.addEventListener('click', openClassModal);
+  classModalClose.addEventListener('click', closeClassModal);
+  classModalBackdrop.addEventListener('click', closeClassModal);
 
   renderWeight();
   renderCategoryButtons();
