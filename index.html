@@ -99,7 +99,7 @@
 </div>
 
 <footer class="app-footer">
-  <button type="button" class="class-table-btn" id="classTableBtn">🧬 抗不整脈薬の分類表（Vaughan Williams分類）</button>
+  <button type="button" class="class-table-btn" id="classTableBtn">🧬 抗不整脈薬の分類表（Vaughan Williams分類・Sicilian Gambit）</button>
   <p id="footerSources">出典:</p>
   <p>端末内で完結し、入力データは送信されません。</p>
 </footer>
@@ -108,8 +108,12 @@
   <div class="modal-backdrop" id="classModalBackdrop"></div>
   <div class="modal-content modal-content-dark">
     <div class="modal-bar">
-      <span class="modal-title">抗不整脈薬の分類（Vaughan Williams分類）</span>
+      <span class="modal-title">抗不整脈薬の分類</span>
       <button type="button" id="classModalClose" class="modal-close" aria-label="閉じる">✕</button>
+    </div>
+    <div id="classModalTabs" class="modal-tabs">
+      <button type="button" class="modal-tab" data-tab="vw">Vaughan Williams分類</button>
+      <button type="button" class="modal-tab" data-tab="sicilian">Sicilian Gambit</button>
     </div>
     <div id="classModalBody" class="modal-body-scroll"></div>
   </div>

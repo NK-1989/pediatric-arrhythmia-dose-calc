@@ -103,6 +103,48 @@ const VW_CLASSIFICATION = {
   },
 };
 
+// Sicilian Gambit分類（不整脈薬物治療ガイドライン第1章 総論 表6 より）。
+// 原本の表6を画像として直接確認し、22薬剤×イオンチャネル/受容体/イオンポンプ/
+// 臨床効果/心電図所見の全セルを転記したもの。
+// level: 'low'=○(低), 'mid'=●灰(中等), 'high'=●黒(高), 'agonist'=■(作動薬)
+// mark: 'A'=活性化チャネルブロッカー, 'I'=不活性化チャネルブロッカー
+const SICILIAN_GAMBIT = {
+  title: 'Sicilian Gambitの提唱する薬剤分類の枠組み',
+  sourceKey: 'jcs2020',
+  sourcePage: 16,
+  legend: [
+    '遮断作用の相対的強さ：○低／●（灰）中等／●（黒）高',
+    '■：作動薬（チャネル・受容体・イオンポンプを活性化する薬物）',
+    '臨床効果・心電図所見の変化の方向：↑増大／↓減少／→不変',
+    'A：活性化チャネルブロッカー（活性化状態イオンチャネルを遮断）、I：不活性化チャネルブロッカー（不活性化状態イオンチャネルを遮断）',
+    '速い・中間・遅い：Na+チャネルに対する結合・解離速度',
+  ],
+  drugs: [
+    { name: 'リドカイン', channels: [{ label: 'Na+(速い)', level: 'low' }], clinical: { lv: '→', sinus: '→', extracardiac: 'mid' }, ecg: { jt: '↓' } },
+    { name: 'メキシレチン', channels: [{ label: 'Na+(速い)', level: 'low' }], clinical: { lv: '→', sinus: '→', extracardiac: 'mid' }, ecg: { jt: '↓' } },
+    { name: 'プロカインアミド', channels: [{ label: 'Na+(中間)', level: 'high', mark: 'A' }, { label: 'K+', level: 'mid' }], clinical: { lv: '↓', sinus: '→', extracardiac: 'high' }, ecg: { pr: '↑', qrs: '↑', jt: '↑' } },
+    { name: 'ジソピラミド', channels: [{ label: 'Na+(遅い)', level: 'high', mark: 'A' }, { label: 'K+', level: 'mid' }, { label: 'M2', level: 'low' }], clinical: { lv: '↓', sinus: '→', extracardiac: 'mid' }, ecg: { pr: '↑↓', qrs: '↑', jt: '↑' } },
+    { name: 'キニジン', channels: [{ label: 'Na+(中間)', level: 'high', mark: 'A' }, { label: 'K+', level: 'mid' }, { label: 'α', level: 'low' }, { label: 'M2', level: 'low' }], clinical: { lv: '→', sinus: '↑', extracardiac: 'mid' }, ecg: { pr: '↑↓', qrs: '↑', jt: '↑' } },
+    { name: 'プロパフェノン', channels: [{ label: 'Na+(中間)', level: 'high', mark: 'A' }, { label: 'β', level: 'mid' }], clinical: { lv: '↓', sinus: '↓', extracardiac: 'low' }, ecg: { pr: '↑', qrs: '↑' } },
+    { name: 'アプリンジン', channels: [{ label: 'Na+(中間)', level: 'high', mark: 'I' }, { label: 'Ca2+', level: 'low' }, { label: 'K+', level: 'low' }, { label: 'If', level: 'low' }], clinical: { lv: '→', sinus: '→', extracardiac: 'mid' }, ecg: { pr: '↑', qrs: '↑', jt: '→' } },
+    { name: 'シベンゾリン', channels: [{ label: 'Na+(遅い)', level: 'high', mark: 'A' }, { label: 'Ca2+', level: 'low' }, { label: 'K+', level: 'mid' }, { label: 'M2', level: 'low' }], clinical: { lv: '↓', sinus: '→', extracardiac: 'low' }, ecg: { pr: '↑', qrs: '↑', jt: '→' } },
+    { name: 'ピルメノール', channels: [{ label: 'Na+(遅い)', level: 'high', mark: 'A' }, { label: 'K+', level: 'mid' }, { label: 'M2', level: 'low' }], clinical: { lv: '↓', sinus: '↑', extracardiac: 'low' }, ecg: { pr: '↑', qrs: '↑', jt: '↑→' } },
+    { name: 'フレカイニド', channels: [{ label: 'Na+(遅い)', level: 'high', mark: 'A' }, { label: 'K+', level: 'low' }], clinical: { lv: '↓', sinus: '→', extracardiac: 'low' }, ecg: { pr: '↑', qrs: '↑' } },
+    { name: 'ピルシカイニド', channels: [{ label: 'Na+(遅い)', level: 'high', mark: 'A' }], clinical: { lv: '↓→', sinus: '→', extracardiac: 'low' }, ecg: { pr: '↑', qrs: '↑' } },
+    { name: 'ベプリジル', channels: [{ label: 'Na+(速い)', level: 'low' }, { label: 'Ca2+', level: 'high' }, { label: 'K+', level: 'mid' }], clinical: { lv: '?', sinus: '↓', extracardiac: 'low' }, ecg: { jt: '↑' } },
+    { name: 'ベラパミル', channels: [{ label: 'Na+(速い)', level: 'low' }, { label: 'Ca2+', level: 'high' }, { label: 'α', level: 'mid' }], clinical: { lv: '↓', sinus: '↓', extracardiac: 'low' }, ecg: { pr: '↑' } },
+    { name: 'ジルチアゼム', channels: [{ label: 'Ca2+', level: 'mid' }], clinical: { lv: '↓', sinus: '↓', extracardiac: 'low' }, ecg: { pr: '↑' } },
+    { name: 'ソタロール', channels: [{ label: 'K+', level: 'high' }, { label: 'β', level: 'high' }], clinical: { lv: '↓', sinus: '↓', extracardiac: 'low' }, ecg: { jt: '↑' } },
+    { name: 'アミオダロン', channels: [{ label: 'Na+(速い)', level: 'low' }, { label: 'Ca2+', level: 'low' }, { label: 'K+', level: 'high' }, { label: 'α', level: 'mid' }, { label: 'β', level: 'mid' }], clinical: { lv: '→', sinus: '↓', extracardiac: 'high' }, ecg: { pr: '↑', jt: '↑' } },
+    { name: 'ニフェカラント', channels: [{ label: 'K+', level: 'high' }], clinical: { lv: '→', sinus: '→', extracardiac: 'low' }, ecg: { jt: '↑' } },
+    { name: 'ナドロール', channels: [{ label: 'β', level: 'high' }], clinical: { lv: '↓', sinus: '↓', extracardiac: 'low' }, ecg: { pr: '↑' } },
+    { name: 'プロプラノロール', channels: [{ label: 'Na+(速い)', level: 'low' }, { label: 'β', level: 'high' }], clinical: { lv: '↓', sinus: '↓', extracardiac: 'low' }, ecg: { pr: '↑' } },
+    { name: 'アトロピン', channels: [{ label: 'M2', level: 'high' }], clinical: { lv: '→', sinus: '↑', extracardiac: 'mid' }, ecg: { pr: '↓' } },
+    { name: 'ATP', channels: [{ label: 'A1', level: 'agonist' }], clinical: { lv: '?', sinus: '↓', extracardiac: 'low' }, ecg: { pr: '↑' } },
+    { name: 'ジゴキシン', channels: [{ label: 'M2', level: 'agonist' }, { label: 'Na+-K+-ATPase', level: 'high' }], clinical: { lv: '↑', sinus: '↓', extracardiac: 'high' }, ecg: { pr: '↑', jt: '↓' } },
+  ],
+};
+
 const ARRHYTHMIA_CATEGORIES = [
   {
     id: 'psvt',
@@ -1128,5 +1170,5 @@ const ARRHYTHMIA_CATEGORIES = [
 ];
 
 if (typeof module !== 'undefined' && module.exports) {
-  module.exports = { ARRHYTHMIA_CATEGORIES, GUIDELINE_SOURCES, GUIDELINE_SOURCE, guidelinePdfLink, VW_CLASSIFICATION };
+  module.exports = { ARRHYTHMIA_CATEGORIES, GUIDELINE_SOURCES, GUIDELINE_SOURCE, guidelinePdfLink, VW_CLASSIFICATION, SICILIAN_GAMBIT };
 }

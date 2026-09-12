@@ -196,3 +196,13 @@ h1{margin:10px 0 0;font-size:22px;line-height:1.4;font-weight:700}
 .class-unclassified-label{font-size:12px;font-weight:700;color:var(--ink-2)}
 .class-unclassified-note{margin-top:6px;font-size:11px;line-height:1.7;color:var(--ink-3)}
 .class-unclassified-drugs{margin-top:9px;display:flex;flex-wrap:wrap;gap:6px}
+
+.sg-drug{padding:12px 14px;margin-bottom:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.sg-drug-name{font-size:13px;font-weight:700}
+.sg-row{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.sg-chip{padding:4px 8px;border-radius:7px;font-size:10px;font-weight:500;white-space:nowrap}
+.sg-arrow{background:var(--surface-2);color:rgba(242,244,245,.85)}
+.sg-level-low{background:var(--surface-2);color:var(--ink-3);border:1px solid var(--line-strong)}
+.sg-level-mid{background:rgba(159,176,187,.28);color:var(--ink);border:1px solid rgba(159,176,187,.5)}
+.sg-level-high{background:rgba(95,212,196,.22);color:var(--accent);border:1px solid rgba(95,212,196,.55);font-weight:700}
+.sg-level-agonist{background:rgba(255,120,90,.18);color:var(--warn-ink);border:1px solid var(--warn-line);font-weight:700}

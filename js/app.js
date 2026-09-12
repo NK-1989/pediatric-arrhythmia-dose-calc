@@ -51,6 +51,7 @@
   const classModal = document.getElementById('classModal');
   const classModalBackdrop = document.getElementById('classModalBackdrop');
   const classModalClose = document.getElementById('classModalClose');
+  const classModalTabs = document.getElementById('classModalTabs');
   const classModalBody = document.getElementById('classModalBody');
 
   let weightText = '';          // キーパッドで入力中の文字列
@@ -424,10 +425,26 @@
     if (e.key === 'Escape' && !classModal.hidden) closeClassModal();
   });
 
-  // --- 抗不整脈薬の分類表（Vaughan Williams分類）モーダル ------------------
-  function renderClassTable() {
-    const data = VW_CLASSIFICATION;
+  // --- 抗不整脈薬の分類表（Vaughan Williams分類 / Sicilian Gambit）モーダル ---
+  let activeClassTab = 'vw';
+
+  function appendSourceLink(container, data, tableLabel) {
     const sourceInfo = GUIDELINE_SOURCES[data.sourceKey || 'jcs2020'];
+    const source = document.createElement('p');
+    source.className = 'class-intro';
+    source.style.marginTop = '4px';
+    const link = document.createElement('a');
+    link.className = 'modal-source-link';
+    link.href = guidelinePdfLink(data.sourcePage, data.sourceKey);
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = '📖 出典: ' + sourceInfo.title + (data.sourcePage ? ' ' + tableLabel + ' p.' + data.sourcePage : '');
+    source.appendChild(link);
+    container.appendChild(source);
+  }
+
+  function renderVWClassification() {
+    const data = VW_CLASSIFICATION;
     classModalBody.innerHTML = '';
 
     const intro = document.createElement('p');
@@ -492,27 +509,100 @@
       classModalBody.appendChild(box);
     }
 
-    const source = document.createElement('p');
-    source.className = 'class-intro';
-    source.style.marginTop = '4px';
-    const link = document.createElement('a');
-    link.className = 'modal-source-link';
-    link.href = guidelinePdfLink(data.sourcePage, data.sourceKey);
-    link.target = '_blank';
-    link.rel = 'noopener';
-    link.textContent = '📖 出典: ' + sourceInfo.title + (data.sourcePage ? ' 表5 p.' + data.sourcePage : '');
-    source.appendChild(link);
-    classModalBody.appendChild(source);
+    appendSourceLink(classModalBody, data, '表5');
+  }
+
+  // Sicilian Gambitの●/○の強さレベルをラベル付きの丸アイコンにする
+  const SG_LEVEL_LABEL = { low: '低', mid: '中', high: '高', agonist: '作動' };
+  function sgLevelChip(label, level, mark) {
+    const chip = document.createElement('span');
+    chip.className = 'sg-chip sg-level-' + level;
+    chip.textContent = label + (mark ? '(' + mark + ')' : '') + ' ' + SG_LEVEL_LABEL[level];
+    return chip;
+  }
+  function sgArrow(label, value) {
+    const chip = document.createElement('span');
+    chip.className = 'sg-chip sg-arrow';
+    chip.textContent = label + ' ' + value;
+    return chip;
+  }
+
+  function renderSicilianGambit() {
+    const data = SICILIAN_GAMBIT;
+    classModalBody.innerHTML = '';
+
+    const intro = document.createElement('p');
+    intro.className = 'class-intro';
+    intro.textContent = data.title + '：22の抗不整脈薬について、イオンチャネル・受容体・イオンポンプへの作用の強さと、臨床効果・心電図所見への影響をまとめたもの。';
+    classModalBody.appendChild(intro);
+
+    data.drugs.forEach((d) => {
+      const box = document.createElement('div');
+      box.className = 'sg-drug';
+
+      const name = document.createElement('div');
+      name.className = 'sg-drug-name';
+      name.textContent = d.name;
+      box.appendChild(name);
+
+      if (d.channels && d.channels.length) {
+        const row = document.createElement('div');
+        row.className = 'sg-row';
+        d.channels.forEach((c) => row.appendChild(sgLevelChip(c.label, c.level, c.mark)));
+        box.appendChild(row);
+      }
+
+      const clinicalRow = document.createElement('div');
+      clinicalRow.className = 'sg-row';
+      if (d.clinical) {
+        if (d.clinical.lv) clinicalRow.appendChild(sgArrow('左室機能', d.clinical.lv));
+        if (d.clinical.sinus) clinicalRow.appendChild(sgArrow('洞調律', d.clinical.sinus));
+        if (d.clinical.extracardiac) clinicalRow.appendChild(sgLevelChip('心外性作用', d.clinical.extracardiac));
+      }
+      if (d.ecg) {
+        if (d.ecg.pr) clinicalRow.appendChild(sgArrow('PR', d.ecg.pr));
+        if (d.ecg.qrs) clinicalRow.appendChild(sgArrow('QRS', d.ecg.qrs));
+        if (d.ecg.jt) clinicalRow.appendChild(sgArrow('JT', d.ecg.jt));
+      }
+      box.appendChild(clinicalRow);
+
+      classModalBody.appendChild(box);
+    });
+
+    const legend = document.createElement('div');
+    legend.className = 'class-unclassified';
+    data.legend.forEach((l) => {
+      const p = document.createElement('div');
+      p.className = 'class-unclassified-note';
+      p.textContent = l;
+      legend.appendChild(p);
+    });
+    classModalBody.appendChild(legend);
+
+    appendSourceLink(classModalBody, data, '表6');
+  }
+
+  function renderActiveClassTab() {
+    Array.from(classModalTabs.children).forEach((t) => t.classList.toggle('active', t.dataset.tab === activeClassTab));
+    if (activeClassTab === 'sicilian') renderSicilianGambit();
+    else renderVWClassification();
   }
 
   function openClassModal() {
-    renderClassTable();
+    activeClassTab = 'vw';
+    renderActiveClassTab();
     classModal.hidden = false;
   }
   function closeClassModal() {
     classModal.hidden = true;
   }
   classTableBtn.addEventListener('click', openClassModal);
+  classModalTabs.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-tab]');
+    if (!btn) return;
+    activeClassTab = btn.dataset.tab;
+    renderActiveClassTab();
+  });
   classModalClose.addEventListener('click', closeClassModal);
   classModalBackdrop.addEventListener('click', closeClassModal);
 
